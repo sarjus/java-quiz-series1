@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Java If-Else Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+      margin: auto;
+      max-width: 750px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .question {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    button {
+      display: block;
+      margin-top: 10px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      background: #3498db;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button.correct {
+      background: #2ecc71;
+    }
+    button.wrong {
+      background: #e74c3c;
+    }
+    button:disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+    pre {
+      background: #ecf0f1;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    #result {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #dff9fb;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    #result h2 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+    #retryBtn {
+      background: #f39c12;
+      margin-top: 15px;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Java Code Quest: If-Else Challenge</h1>
+
+  <!-- Questions (same as earlier, shortened comments) -->
+  <div class="question" data-answer="B">
+    <p><strong>1️⃣ You find a glowing orb with this message:</strong></p>
+    <pre>
+int score = 85;
+if (score > 80) {
+    System.out.println("You earned a badge!");
+}
+    </pre>
+    <p>What will be printed when this code is executed?</p>
+    <button>A) Nothing</button>
+    <button>B) You earned a badge!</button>
+    <button>C) Score is 85</button>
+    <button>D) Syntax error</button>
+  </div>
+
+  <div class="question" data-answer="A">
+    <p><strong>2️⃣ The oracle whispers a number puzzle:</strong></p>
+    <pre>
+int x = 10;
+if (x % 2 == 0) {
+    System.out.println("Even number");
+} else {
+    System.out.println("Odd number");
+}
+    </pre>
+    <p>What will be printed?</p>
+    <button>A) Even number</button>
+    <button>B) Odd number</button>
+    <button>C) 10</button>
+    <button>D) Error</button>
+  </div>
+
+  <div class="question" data-answer="C">
+    <p><strong>3️⃣ A magical tablet shows this code:</strong></p>
+    <pre>
+int marks = 76;
+if (marks >= 90) {
+    System.out.println("Grade: A");
+} else if (marks >= 80) {
+    System.out.println("Grade: B");
+} else if (marks >= 70) {
+    System.out.println("Grade: C");
+} else {
+    System.out.println("Grade: D");
+}
+    </pre>
+    <p>What grade will be printed for a student with 76 marks?</p>
+    <button>A) Grade: A</button>
+    <button>B) Grade: B</button>
+    <button>C) Grade: C</button>
+    <button>D) Grade: D</button>
+  </div>
+
+  <div class="question" data-answer="B">
+    <p><strong>4️⃣ Bonus Round: Tricky Indentation!</strong></p>
+    <pre>
+int a = 5;
+if (a == 5)
+    System.out.println("Correct");
+    System.out.println("Still inside if");
+    </pre>
+    <p>How many lines will be printed when the code runs?</p>
+    <button>A) 1</button>
+    <button>B) 2</button>
+    <button>C) 0</button>
+    <button>D) Compilation error</button>
+  </div>
+
+  <div class="question" data-answer="C">
+    <p><strong>5️⃣ The Puzzle of Confusion:</strong></p>
+    <pre>
+int number = 0;
+if (number = 1) {
+    System.out.println("Number is one");
+} else {
+    System.out.println("Number is not one");
+}
+    </pre>
+    <p>What will happen?</p>
+    <button>A) Number is one</button>
+    <button>B) Number is not one</button>
+    <button>C) Compilation error</button>
+    <button>D) Runtime error</button>
+  </div>
+
+  <div class="question" data-answer="B">
+    <p><strong>6️⃣ The Missing Braces Mystery:</strong></p>
+    <pre>
+int age = 20;
+if (age > 18)
+    System.out.println("You can vote.");
+    System.out.println("Process complete.");
+    </pre>
+    <p>What will be printed?</p>
+    <button>A) Only "You can vote."</button>
+    <button>B) Both lines will be printed</button>
+    <button>C) Only "Process complete."</button>
+    <button>D) Compilation error</button>
+  </div>
+
+  <!-- Score Result -->
+  <div id="result">
+    <h2>Your Score: <span id="score">0</span>/6</h2>
+    <p>Well done! You can try again to improve your score.</p>
+    <button id="retryBtn">🔁 Try Again</button>
+  </div>
+
+  <script>
+    const questions = document.querySelectorAll(".question");
+    let totalScore = 0;
+    let answeredCount = 0;
+
+    questions.forEach(q => {
+      const correct = q.dataset.answer;
+      const buttons = q.querySelectorAll("button");
+
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          // Prevent multiple attempts
+          if ([...buttons].some(b => b.disabled)) return;
+
+          answeredCount++;
+
+          if (btn.textContent.trim().startsWith(correct)) {
+            btn.classList.add("correct");
+            totalScore++;
+          } else {
+            btn.classList.add("wrong");
+            buttons.forEach(b => {
+              if (b.textContent.trim().startsWith(correct)) {
+                b.classList.add("correct");
+              }
+            });
+          }
+
+          buttons.forEach(b => b.disabled = true);
+
+          if (answeredCount === questions.length) {
+            document.getElementById("score").textContent = totalScore;
+            document.getElementById("result").style.display = "block";
+          }
+        });
+      });
+    });
+
+    // Retry logic
+    document.getElementById("retryBtn").addEventListener("click", () => {
+      totalScore = 0;
+      answeredCount = 0;
+      document.getElementById("result").style.display = "none";
+
+      questions.forEach(q => {
+        const buttons = q.querySelectorAll("button");
+        buttons.forEach(btn => {
+          btn.disabled = false;
+          btn.classList.remove("correct", "wrong");
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
