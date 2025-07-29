@@ -88,110 +88,11 @@
 
   <h1>🎮 Java Code Quest: If-Else Challenge</h1>
 
-  <!-- Questions (same as earlier, shortened comments) -->
-  <div class="question" data-answer="B">
-    <p><strong>1️⃣ You find a glowing orb with this message:</strong></p>
-    <pre>
-int score = 85;
-if (score > 80) {
-    System.out.println("You earned a badge!");
-}
-    </pre>
-    <p>What will be printed when this code is executed?</p>
-    <button>A) Nothing</button>
-    <button>B) You earned a badge!</button>
-    <button>C) Score is 85</button>
-    <button>D) Syntax error</button>
-  </div>
-
-  <div class="question" data-answer="A">
-    <p><strong>2️⃣ The oracle whispers a number puzzle:</strong></p>
-    <pre>
-int x = 10;
-if (x % 2 == 0) {
-    System.out.println("Even number");
-} else {
-    System.out.println("Odd number");
-}
-    </pre>
-    <p>What will be printed?</p>
-    <button>A) Even number</button>
-    <button>B) Odd number</button>
-    <button>C) 10</button>
-    <button>D) Error</button>
-  </div>
-
-  <div class="question" data-answer="C">
-    <p><strong>3️⃣ A magical tablet shows this code:</strong></p>
-    <pre>
-int marks = 76;
-if (marks >= 90) {
-    System.out.println("Grade: A");
-} else if (marks >= 80) {
-    System.out.println("Grade: B");
-} else if (marks >= 70) {
-    System.out.println("Grade: C");
-} else {
-    System.out.println("Grade: D");
-}
-    </pre>
-    <p>What grade will be printed for a student with 76 marks?</p>
-    <button>A) Grade: A</button>
-    <button>B) Grade: B</button>
-    <button>C) Grade: C</button>
-    <button>D) Grade: D</button>
-  </div>
-
-  <div class="question" data-answer="B">
-    <p><strong>4️⃣ Bonus Round: Tricky Indentation!</strong></p>
-    <pre>
-int a = 5;
-if (a == 5)
-    System.out.println("Correct");
-    System.out.println("Still inside if");
-    </pre>
-    <p>How many lines will be printed when the code runs?</p>
-    <button>A) 1</button>
-    <button>B) 2</button>
-    <button>C) 0</button>
-    <button>D) Compilation error</button>
-  </div>
-
-  <div class="question" data-answer="C">
-    <p><strong>5️⃣ The Puzzle of Confusion:</strong></p>
-    <pre>
-int number = 0;
-if (number = 1) {
-    System.out.println("Number is one");
-} else {
-    System.out.println("Number is not one");
-}
-    </pre>
-    <p>What will happen?</p>
-    <button>A) Number is one</button>
-    <button>B) Number is not one</button>
-    <button>C) Compilation error</button>
-    <button>D) Runtime error</button>
-  </div>
-
-  <div class="question" data-answer="B">
-    <p><strong>6️⃣ The Missing Braces Mystery:</strong></p>
-    <pre>
-int age = 20;
-if (age > 18)
-    System.out.println("You can vote.");
-    System.out.println("Process complete.");
-    </pre>
-    <p>What will be printed?</p>
-    <button>A) Only "You can vote."</button>
-    <button>B) Both lines will be printed</button>
-    <button>C) Only "Process complete."</button>
-    <button>D) Compilation error</button>
-  </div>
+  <div id="quiz"></div>
 
   <!-- Score Result -->
   <div id="result">
-    <h2>Your Score: <span id="score">0</span>/6</h2>
+    <h2>Your Score: <span id="score">0</span>/<span id="total">0</span></h2>
     <p>Well done! You can try again to improve your score.</p>
     <button id="retryBtn">🔁 Try Again</button>
   </div>
@@ -202,56 +103,152 @@ if (age > 18)
   </footer>
 
   <script>
-    const questions = document.querySelectorAll(".question");
+    const allQuestions = [
+      {
+        title: " You find a glowing orb with this message:",
+        code: `int score = 85;\nif (score > 80) {\n    System.out.println(\"You earned a badge!\");\n}`,
+        question: "What will be printed when this code is executed?",
+        options: [
+          "Nothing",
+          "You earned a badge!",
+          "Score is 85",
+          "Syntax error"
+        ],
+        answer: 1
+      },
+      {
+        title: " The oracle whispers a number puzzle:",
+        code: `int x = 10;\nif (x % 2 == 0) {\n    System.out.println(\"Even number\");\n} else {\n    System.out.println(\"Odd number\");\n}`,
+        question: "What will be printed?",
+        options: [
+          "Even number",
+          "Odd number",
+          "10",
+          "Error"
+        ],
+        answer: 0
+      },
+      {
+        title: " A magical tablet shows this code:",
+        code: `int marks = 76;\nif (marks >= 90) {\n    System.out.println(\"Grade: A\");\n} else if (marks >= 80) {\n    System.out.println(\"Grade: B\");\n} else if (marks >= 70) {\n    System.out.println(\"Grade: C\");\n} else {\n    System.out.println(\"Grade: D\");\n}`,
+        question: "What grade will be printed for a student with 76 marks?",
+        options: [
+          "Grade: A",
+          "Grade: B",
+          "Grade: C",
+          "Grade: D"
+        ],
+        answer: 2
+      },
+      {
+        title: " Bonus Round: Tricky Indentation!",
+        code: `int a = 5;\nif (a == 5)\n    System.out.println(\"Correct\");\n    System.out.println(\"Still inside if\");`,
+        question: "How many lines will be printed when the code runs?",
+        options: ["1", "2", "0", "Compilation error"],
+        answer: 1
+      },
+      {
+        title: " The Puzzle of Confusion:",
+        code: `int number = 0;\nif (number = 1) {\n    System.out.println(\"Number is one\");\n} else {\n    System.out.println(\"Number is not one\");\n}`,
+        question: "What will happen?",
+        options: [
+          "Number is one",
+          "Number is not one",
+          "Compilation error",
+          "Runtime error"
+        ],
+        answer: 2
+      },
+      {
+        title: " The Missing Braces Mystery:",
+        code: `int age = 20;\nif (age > 18)\n    System.out.println(\"You can vote.\");\n    System.out.println(\"Process complete.\");`,
+        question: "What will be printed?",
+        options: [
+          "Only \"You can vote.\"",
+          "Both lines will be printed",
+          "Only \"Process complete.\"",
+          "Compilation error"
+        ],
+        answer: 1
+      }
+    ];
+
+    
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function numberToEmoji(n) {
+      const emojis = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+      return emojis[n] || n;
+    }
+
+    let selectedQuestions = [...allQuestions];
+    shuffle(selectedQuestions);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    let questionCount = 4; // Change this to the number of questions you want to display
+    document.getElementById("total").textContent = questionCount;
+    if (selectedQuestions.length > questionCount) {
+        selectedQuestions = selectedQuestions.slice(0, questionCount); 
+    }
+
+    const quizContainer = document.getElementById("quiz");
     let totalScore = 0;
     let answeredCount = 0;
 
-    questions.forEach(q => {
-      const correct = q.dataset.answer;
-      const buttons = q.querySelectorAll("button");
+    selectedQuestions.forEach((q, index) => {
+      const qBox = document.createElement("div");
+      qBox.className = "question";
 
-      buttons.forEach(btn => {
+      const title = document.createElement("p");
+      title.innerHTML = `<strong>${numberToEmoji(index + 1)} ${q.title}</strong>`;
+      qBox.appendChild(title);
+
+      if (q.code) {
+        const pre = document.createElement("pre");
+        pre.textContent = q.code;
+        qBox.appendChild(pre);
+      }
+
+      const qText = document.createElement("p");
+      qText.textContent = q.question;
+      qBox.appendChild(qText);
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = `${String.fromCharCode(65 + i)}) ${opt}`;
         btn.addEventListener("click", () => {
-          // Prevent multiple attempts
-          if ([...buttons].some(b => b.disabled)) return;
+          if ([...qBox.querySelectorAll("button")].some(b => b.disabled)) return;
 
           answeredCount++;
 
-          if (btn.textContent.trim().startsWith(correct)) {
+          if (i === q.answer) {
             btn.classList.add("correct");
             totalScore++;
           } else {
             btn.classList.add("wrong");
-            buttons.forEach(b => {
-              if (b.textContent.trim().startsWith(correct)) {
-                b.classList.add("correct");
-              }
-            });
+            qBox.querySelectorAll("button")[q.answer].classList.add("correct");
           }
 
-          buttons.forEach(b => b.disabled = true);
+          qBox.querySelectorAll("button").forEach(b => b.disabled = true);
 
-          if (answeredCount === questions.length) {
+          if (answeredCount === selectedQuestions.length) {
             document.getElementById("score").textContent = totalScore;
             document.getElementById("result").style.display = "block";
           }
         });
+        qBox.appendChild(btn);
       });
+
+      quizContainer.appendChild(qBox);
     });
 
-    // Retry logic
     document.getElementById("retryBtn").addEventListener("click", () => {
-      totalScore = 0;
-      answeredCount = 0;
-      document.getElementById("result").style.display = "none";
-
-      questions.forEach(q => {
-        const buttons = q.querySelectorAll("button");
-        buttons.forEach(btn => {
-          btn.disabled = false;
-          btn.classList.remove("correct", "wrong");
-        });
-      });
+      location.reload();
     });
   </script>
 
