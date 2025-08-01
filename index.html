@@ -4,97 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Java If-Else Quiz</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f6f8;
-      padding: 20px;
-      margin: auto;
-      max-width: 750px;
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    .question {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    button {
-      display: block;
-      margin-top: 10px;
-      padding: 12px;
-      width: 100%;
-      border: none;
-      border-radius: 5px;
-      background: #3498db;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button.correct {
-      background: #2ecc71;
-    }
-    button.wrong {
-      background: #e74c3c;
-    }
-    button:disabled {
-      opacity: 0.8;
-      cursor: not-allowed;
-    }
-    pre {
-      background: #ecf0f1;
-      padding: 10px;
-      border-radius: 5px;
-      overflow-x: auto;
-    }
-    #result {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      background: #dff9fb;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-    #result h2 {
-      margin-bottom: 10px;
-      color: #2c3e50;
-    }
-    #retryBtn {
-      background: #f39c12;
-      margin-top: 15px;
-    }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-      color: #7f8c8d;
-    }
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      button {
-        font-size: 14px;
-        padding: 10px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <h1>🎮 Java Code Quest: If-Else Challenge</h1>
-
+  <button id="newQuizBtn">🎲 New Questions</button>
   <div id="quiz"></div>
 
   <!-- Score Result -->
   <div id="result">
+
     <h2>Your Score: <span id="score">0</span>/<span id="total">0</span></h2>
     <p>Well done! You can try again to improve your score.</p>
     <button id="retryBtn">🔁 Try Again</button>
+    
   </div>
 
   <!-- Footer -->
@@ -103,6 +27,7 @@
   </footer>
 
   <script>
+    
     const allQuestions = [
       {
         title: " You find a glowing orb with this message:",
@@ -185,21 +110,36 @@
       const emojis = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
       return emojis[n] || n;
     }
+    
+    let selectedQuestions;
+    const saved = localStorage.getItem("currentQuizQuestions");
+    
+    if (saved) {
+      selectedQuestions = JSON.parse(saved);
+    } 
+    else {
+      selectedQuestions = [...allQuestions];
+      shuffle(selectedQuestions);
 
-    let selectedQuestions = [...allQuestions];
-    shuffle(selectedQuestions);
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    let questionCount = 4; // Change this to the number of questions you want to display
-    document.getElementById("total").textContent = questionCount;
-    if (selectedQuestions.length > questionCount) {
-        selectedQuestions = selectedQuestions.slice(0, questionCount); 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+      let questionCount = 4;
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+      
+      if (selectedQuestions.length > questionCount) {
+        selectedQuestions = selectedQuestions.slice(0, questionCount);
+      }
+      localStorage.setItem("currentQuizQuestions", JSON.stringify(selectedQuestions));
     }
+    
+    let questionCount = selectedQuestions.length;
+    document.getElementById("total").textContent = questionCount;
+
 
     const quizContainer = document.getElementById("quiz");
     let totalScore = 0;
     let answeredCount = 0;
 
+    // Render each question inside the quiz container using the defined HTML structure
     selectedQuestions.forEach((q, index) => {
       const qBox = document.createElement("div");
       qBox.className = "question";
@@ -247,10 +187,17 @@
       quizContainer.appendChild(qBox);
     });
 
+    document.getElementById("newQuizBtn").addEventListener("click", () => {
+      localStorage.removeItem("currentQuizQuestions");
+      location.reload();
+    });
+
     document.getElementById("retryBtn").addEventListener("click", () => {
+      window.scrollTo(0, 0);
       location.reload();
     });
   </script>
 
 </body>
 </html>
+
