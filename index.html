@@ -44,6 +44,7 @@
     button:disabled {
       opacity: 0.8;
       cursor: not-allowed;
+
     }
     pre {
       background: #ecf0f1;
@@ -67,6 +68,9 @@
       background: #f39c12;
       margin-top: 15px;
     }
+    #retryBtn:hover {
+      background: #e67e22;
+    }
     footer {
       text-align: center;
       margin-top: 30px;
@@ -82,19 +86,43 @@
         padding: 10px;
       }
     }
+    #newQuizBtn {
+      background: #8e44ad;      /* Nice purple */
+      color: #fff;
+      width: auto;              /* Not stretched */
+      min-width: 160px;
+      padding: 12px 24px;
+      margin: 0 auto 20px auto; /* Centered above quiz */
+      display: block;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    #newQuizBtn:hover {
+      background: #6c3483;
+    }
+    button:hover {
+      background: #217dbb; /* A deeper blue for hover, matching your theme */
+    }
+
   </style>
 </head>
 <body>
 
   <h1>🎮 Java Code Quest: If-Else Challenge</h1>
-
+  <button id="newQuizBtn">🎲 New Questions</button>
   <div id="quiz"></div>
 
   <!-- Score Result -->
   <div id="result">
+
     <h2>Your Score: <span id="score">0</span>/<span id="total">0</span></h2>
     <p>Well done! You can try again to improve your score.</p>
     <button id="retryBtn">🔁 Try Again</button>
+    
   </div>
 
   <!-- Footer -->
@@ -103,6 +131,7 @@
   </footer>
 
   <script>
+    
     const allQuestions = [
       {
         title: " You find a glowing orb with this message:",
@@ -185,21 +214,32 @@
       const emojis = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
       return emojis[n] || n;
     }
-
-    let selectedQuestions = [...allQuestions];
-    shuffle(selectedQuestions);
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    let questionCount = 4; // Change this to the number of questions you want to display
-    document.getElementById("total").textContent = questionCount;
-    if (selectedQuestions.length > questionCount) {
-        selectedQuestions = selectedQuestions.slice(0, questionCount); 
+    
+    let selectedQuestions;
+    const saved = localStorage.getItem("currentQuizQuestions");
+    
+    if (saved) {
+      selectedQuestions = JSON.parse(saved);
+    } 
+    else {
+      selectedQuestions = [...allQuestions];
+      shuffle(selectedQuestions);
+      let questionCount = 4;
+      if (selectedQuestions.length > questionCount) {
+        selectedQuestions = selectedQuestions.slice(0, questionCount);
+      }
+      localStorage.setItem("currentQuizQuestions", JSON.stringify(selectedQuestions));
     }
+    
+    let questionCount = selectedQuestions.length;
+    document.getElementById("total").textContent = questionCount;
+
 
     const quizContainer = document.getElementById("quiz");
     let totalScore = 0;
     let answeredCount = 0;
 
+    // Render each question inside the quiz container using the defined HTML structure
     selectedQuestions.forEach((q, index) => {
       const qBox = document.createElement("div");
       qBox.className = "question";
@@ -247,7 +287,13 @@
       quizContainer.appendChild(qBox);
     });
 
+    document.getElementById("newQuizBtn").addEventListener("click", () => {
+      localStorage.removeItem("currentQuizQuestions");
+      location.reload();
+    });
+
     document.getElementById("retryBtn").addEventListener("click", () => {
+      window.scrollTo(0, 0);
       location.reload();
     });
   </script>
