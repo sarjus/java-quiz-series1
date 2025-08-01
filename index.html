@@ -120,7 +120,11 @@
     else {
       selectedQuestions = [...allQuestions];
       shuffle(selectedQuestions);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
       let questionCount = 4;
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+      
       if (selectedQuestions.length > questionCount) {
         selectedQuestions = selectedQuestions.slice(0, questionCount);
       }
@@ -196,3 +200,4 @@
 
 </body>
 </html>
+
